@@ -2,16 +2,17 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Tätigkeitsbeschreibung Generator</title>
+<title>Professionelle Tätigkeitsbeschreibung Generator</title>
 <style>
-body { font-family: Arial; margin: 20px; }
-label { display:block; margin-top: 10px; }
-button { margin-top: 20px; padding: 10px; }
-#result { margin-top: 30px; border:1px solid #ccc; padding:10px; white-space: pre-wrap; background:#f9f9f9; }
+body { font-family: Arial, sans-serif; margin: 20px; }
+label { display:block; margin-top:10px; }
+button { margin-top:20px; padding:10px; }
+#result { margin-top:30px; padding:15px; border:1px solid #ccc; background:#f9f9f9; white-space: pre-wrap; }
+h3 { margin-top:20px; }
 </style>
 </head>
 <body>
-<h1>Tätigkeitsbeschreibung Generator</h1>
+<h1>Professionelle Tätigkeitsbeschreibung Generator</h1>
 
 <!-- Geschlecht -->
 <label>Geschlecht:
@@ -29,6 +30,14 @@ button { margin-top: 20px; padding: 10px; }
 </select>
 </label>
 
+<!-- Regelmäßigkeit -->
+<label>Regelmäßigkeit:
+<select id="regelmaessigkeit">
+<option value="regelmäßig">regelmäßig</option>
+<option value="unregelmäßig">unregelmäßig</option>
+</select>
+</label>
+
 <!-- Schicht -->
 <label>Schicht:
 <select id="schicht">
@@ -39,17 +48,59 @@ button { margin-top: 20px; padding: 10px; }
 </select>
 </label>
 
-<!-- Körperliche Position -->
 <h3>Körperliche Position</h3>
 <label><input type="checkbox" id="stehend"> Stehend</label>
-<label><input type="checkbox" id="sitzend"> Sitzend</label>
 <label><input type="checkbox" id="gehend"> Gehend</label>
+<label><input type="checkbox" id="sitzend"> Sitzend</label>
 
-<!-- Belastung -->
+<h3>Maschinenarbeit</h3>
+<label><input type="checkbox" id="maschineStehend"> An Maschine, stehend</label>
+<label><input type="checkbox" id="maschineSitzend"> An Maschine, sitzend</label>
+
 <h3>Belastungen</h3>
-<label><input type="checkbox" id="heben5kg"> Heben bis 5kg</label>
+<label><input type="checkbox" id="heben5kg"> Heben/Tragen bis 5 kg</label>
+<label><input type="checkbox" id="hebenMehr"> Heben/Tragen mehr als 5 kg</label>
 <label><input type="checkbox" id="gebueckt"> Oft gebückt</label>
-<label><input type="checkbox" id="armeErhoben"> Arme erhoben</label>
+<label><input type="checkbox" id="armeErhoben"> Oft mit erhobenen Armen</label>
+<label><input type="checkbox" id="kniedhockend"> Oft kniedhockend</label>
+<label><input type="checkbox" id="geruestet"> Oft gerüstet/leitend</label>
+
+<h3>Äußere Einflüsse</h3>
+<label><input type="checkbox" id="hitze"> Hitze</label>
+<label><input type="checkbox" id="kaelte"> Kälte</label>
+<label><input type="checkbox" id="staub"> Staub</label>
+<label><input type="checkbox" id="laerm"> Lärm</label>
+<label><input type="checkbox" id="zeitdruck"> Zeitdruck</label>
+<label><input type="checkbox" id="zugluft"> Zugluft</label>
+<label><input type="checkbox" id="daempfe"> Belastende Dämpfe</label>
+
+<h3>Verantwortung / Aufgaben</h3>
+<label><input type="checkbox" id="fuehrung"> Führungsaufgaben</label>
+<label><input type="checkbox" id="konzentration"> Ständige Konzentration</label>
+<label><input type="checkbox" id="anlage"> Anlagesteuerung</label>
+<label><input type="checkbox" id="auswaerts"> Auswärtsmontage</label>
+<label><input type="checkbox" id="edv"> EDV-Tätigkeit</label>
+<label><input type="checkbox" id="akkord"> Akkordarbeit</label>
+<label><input type="checkbox" id="diaet"> Diät möglich</label>
+<label><input type="checkbox" id="reise"> Reisetätigkeit</label>
+
+<h3>Überstunden</h3>
+<label><input type="radio" name="ueberstunden" value="Ja"> Ja</label>
+<label><input type="radio" name="ueberstunden" value="Nein"> Nein</label>
+
+<h3>Zufriedenheit</h3>
+<label><input type="radio" name="zufriedenheit" value="Ja"> Ja</label>
+<label><input type="radio" name="zufriedenheit" value="Nein"> Nein</label>
+
+<h3>Schwindelfreiheit</h3>
+<label><input type="radio" name="schwindelfreiheit" value="Ja"> Ja</label>
+<label><input type="radio" name="schwindelfreiheit" value="Nein"> Nein</label>
+
+<h3>Erreichbarkeit</h3>
+<label><input type="checkbox" id="pkw"> PKW</label>
+<label><input type="checkbox" id="fahrrad"> Fahrrad</label>
+<label><input type="checkbox" id="oeffentlich"> Öffentliche Verkehrsmittel</label>
+<label><input type="checkbox" id="fuss"> Zu Fuß</label>
 
 <button onclick="generateText()">Text generieren</button>
 
@@ -57,27 +108,77 @@ button { margin-top: 20px; padding: 10px; }
 
 <script>
 function generateText() {
-  let gender = document.getElementById("gender").value;
-  let pronoun = (gender === "mann") ? "Er" : "Sie";
-  let possessive = (gender === "mann") ? "sein" : "ihr";
+    let gender = document.getElementById("gender").value;
+    let pronoun = (gender==="mann")?"Er":"Sie";
+    let possessive = (gender==="mann")?"sein":"ihr";
 
-  let arbeitszeit = document.getElementById("arbeitszeit").value;
-  let schicht = document.getElementById("schicht").value;
+    let text = pronoun + " arbeitet " + document.getElementById("arbeitszeit").value +
+        " Beschäftigung, " + document.getElementById("regelmaessigkeit").value +
+        " in der " + document.getElementById("schicht").value + ".\n\n";
 
-  let details = [];
-  if(document.getElementById("stehend").checked) details.push("steht");
-  if(document.getElementById("sitzend").checked) details.push("sitzt");
-  if(document.getElementById("gehend").checked) details.push("geht");
-  if(document.getElementById("heben5kg").checked) details.push("hebt bis 5kg");
-  if(document.getElementById("gebueckt").checked) details.push("arbeitet oft gebückt");
-  if(document.getElementById("armeErhoben").checked) details.push("arbeitet oft mit erhobenen Armen");
+    let details = [];
 
-  let text = pronoun + " arbeitet " + arbeitszeit + " in " + schicht + ". ";
-  if(details.length > 0) text += pronoun + " " + details.join(", ") + ".";
+    // Körperliche Position
+    if(document.getElementById("stehend").checked) details.push("steht");
+    if(document.getElementById("gehend").checked) details.push("geht");
+    if(document.getElementById("sitzend").checked) details.push("sitzt");
 
-  document.getElementById("result").textContent = text;
+    // Maschinenarbeit
+    if(document.getElementById("maschineStehend").checked) details.push("arbeitet an Maschine, stehend");
+    if(document.getElementById("maschineSitzend").checked) details.push("arbeitet an Maschine, sitzend");
+
+    // Belastungen
+    if(document.getElementById("heben5kg").checked) details.push("hebt/trägt bis 5 kg");
+    if(document.getElementById("hebenMehr").checked) details.push("hebt/trägt mehr als 5 kg");
+    if(document.getElementById("gebueckt").checked) details.push("arbeitet oft gebückt");
+    if(document.getElementById("armeErhoben").checked) details.push("arbeitet oft mit erhobenen Armen");
+    if(document.getElementById("kniedhockend").checked) details.push("arbeitet oft kniedhockend");
+    if(document.getElementById("geruestet").checked) details.push("arbeitet oft gerüstet/leitend");
+
+    // Äußere Einflüsse
+    let aeussere = [];
+    if(document.getElementById("hitze").checked) aeussere.push("Hitze");
+    if(document.getElementById("kaelte").checked) aeussere.push("Kälte");
+    if(document.getElementById("staub").checked) aeussere.push("Staub");
+    if(document.getElementById("laerm").checked) aeussere.push("Lärm");
+    if(document.getElementById("zeitdruck").checked) aeussere.push("Zeitdruck");
+    if(document.getElementById("zugluft").checked) aeussere.push("Zugluft");
+    if(document.getElementById("daempfe").checked) aeussere.push("belastende Dämpfe");
+    if(aeussere.length>0) details.push("äußere Einflüsse: " + aeussere.join(", "));
+
+    // Verantwortung/Aufgaben
+    let aufgaben = [];
+    if(document.getElementById("fuehrung").checked) aufgaben.push("Führungsaufgaben");
+    if(document.getElementById("konzentration").checked) aufgaben.push("ständige Konzentration");
+    if(document.getElementById("anlage").checked) aufgaben.push("Anlagesteuerung");
+    if(document.getElementById("auswaerts").checked) aufgaben.push("Auswärtsmontage");
+    if(document.getElementById("edv").checked) aufgaben.push("EDV-Tätigkeit");
+    if(document.getElementById("akkord").checked) aufgaben.push("Akkordarbeit");
+    if(document.getElementById("diaet").checked) aufgaben.push("Diät möglich");
+    if(document.getElementById("reise").checked) aufgaben.push("Reisetätigkeit");
+    if(aufgaben.length>0) details.push("Aufgaben: " + aufgaben.join(", "));
+
+    // Überstunden, Zufriedenheit, Schwindelfreiheit
+    let ueberstunden = document.querySelector("input[name='ueberstunden']:checked")?.value;
+    if(ueberstunden) details.push("Überstunden: " + ueberstunden);
+
+    let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
+    if(zufriedenheit) details.push("Zufriedenheit: " + zufriedenheit);
+
+    let schwindel = document.querySelector("input[name='schwindelfreiheit']:checked")?.value;
+    if(schwindel) details.push("Schwindelfreiheit: " + schwindel);
+
+    // Erreichbarkeit
+    let erreich = [];
+    if(document.getElementById("pkw").checked) erreich.push("PKW");
+    if(document.getElementById("fahrrad").checked) erreich.push("Fahrrad");
+    if(document.getElementById("oeffentlich").checked) erreich.push("ÖPNV");
+    if(document.getElementById("fuss").checked) erreich.push("zu Fuß");
+    if(erreich.length>0) details.push("Erreichbarkeit: " + erreich.join(", "));
+
+    text += pronoun + " " + details.join(", ") + ".";
+    document.getElementById("result").textContent = text;
 }
 </script>
-
 </body>
 </html>
