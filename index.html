@@ -15,16 +15,10 @@ h3 { margin-top:20px; }
 <body>
 <h1>Professionelle Tätigkeitsbeschreibung Generator</h1>
 
-<!-- Arbeitsstunden -->
 <h3>Arbeitszeit pro Tag / Woche</h3>
-<label>Tägliche Arbeitszeit (Stunden):
-<input type="number" id="stundenTag" min="0" max="24" value="8">
-</label>
-<label>Wöchentliche Arbeitszeit (Stunden):
-<input type="number" id="stundenWoche" min="0" max="168" value="40">
-</label>
+<label>Tägliche Arbeitszeit (Stunden): <input type="number" id="stundenTag" min="0" max="24" value="8"></label>
+<label>Wöchentliche Arbeitszeit (Stunden): <input type="number" id="stundenWoche" min="0" max="168" value="40"></label>
 
-<!-- Geschlecht -->
 <label>Geschlecht:
 <select id="gender">
 <option value="mann">Mann</option>
@@ -32,7 +26,6 @@ h3 { margin-top:20px; }
 </select>
 </label>
 
-<!-- Arbeitszeit -->
 <label>Arbeitszeit:
 <select id="arbeitszeit">
 <option value="Vollzeit">Vollzeit</option>
@@ -40,7 +33,6 @@ h3 { margin-top:20px; }
 </select>
 </label>
 
-<!-- Regelmäßigkeit -->
 <label>Regelmäßigkeit:
 <select id="regelmaessigkeit">
 <option value="regelmäßig">regelmäßig</option>
@@ -48,7 +40,6 @@ h3 { margin-top:20px; }
 </select>
 </label>
 
-<!-- Schicht -->
 <label>Schicht:
 <select id="schicht">
 <option value="Tagesschicht">Tagesschicht</option>
@@ -138,7 +129,7 @@ function generateText() {
     if(document.getElementById("sitzend").checked) position.push("sitzt");
     if(document.getElementById("maschineStehend").checked) position.push("arbeitet an Maschine, stehend");
     if(document.getElementById("maschineSitzend").checked) position.push("arbeitet an Maschine, sitzend");
-    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit, was eine abwechslungsreiche körperliche Beanspruchung sicherstellt.`);
+    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit, wodurch ${possessive} Arbeitsabläufe abwechslungsreich und vielseitig gestaltet werden.`);
 
     // Belastungen
     let belastungen = [];
@@ -148,7 +139,7 @@ function generateText() {
     if(document.getElementById("armeErhoben").checked) belastungen.push("arbeitet häufig mit erhobenen Armen");
     if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniedhockend");
     if(document.getElementById("geruestet").checked) belastungen.push("arbeitet oft gerüstet oder leitend");
-    if(belastungen.length>0) sentences.push(`Dabei ${belastungen.join(", ")}, wodurch ${possessive} körperliche Belastbarkeit gefordert ist.`);
+    if(belastungen.length>0) sentences.push(`Dabei ${belastungen.join(", ")}. Dies fordert ${possessive} körperliche Belastbarkeit und Beweglichkeit.`);
 
     // Äußere Einflüsse
     let aeussere = [];
@@ -156,4 +147,15 @@ function generateText() {
     if(document.getElementById("kaelte").checked) aeussere.push("Kälte");
     if(document.getElementById("staub").checked) aeussere.push("Staub");
     if(document.getElementById("laerm").checked) aeussere.push("Lärm");
-    if(document.getElementById("zeitdruck").checked) aeuss
+    if(document.getElementById("zeitdruck").checked) aeussere.push("Zeitdruck");
+    if(document.getElementById("zugluft").checked) aeussere.push("Zugluft");
+    if(document.getElementById("daempfe").checked) aeussere.push("belastende Dämpfe");
+    if(aeussere.length>0) sentences.push(`Die Arbeit erfolgt unter Einwirkung von ${aeussere.join(", ")} und erfordert entsprechende Vorsichtsmaßnahmen.`);
+
+    // Verantwortung / Aufgaben
+    let aufgaben = [];
+    if(document.getElementById("fuehrung").checked) aufgaben.push("Führungsaufgaben");
+    if(document.getElementById("konzentration").checked) aufgaben.push("ständige Konzentration");
+    if(document.getElementById("anlage").checked) aufgaben.push("Anlagesteuerung");
+    if(document.getElementById("auswaerts").checked) aufgaben.push("Auswärtsmontage");
+    if(document.getElementById
