@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Professionelle Tätigkeitsbeschreibung Generator</title>
 <style>
-body { font-family: Arial; margin: 20px; }
+body { font-family: Arial, sans-serif; margin: 20px; }
 label { display:block; margin-top:10px; }
 input[type="number"] { width: 60px; margin-left: 5px; }
 button { margin-top:20px; padding:10px; }
@@ -129,7 +129,7 @@ function generateText() {
     if(document.getElementById("sitzend").checked) position.push("sitzt");
     if(document.getElementById("maschineStehend").checked) position.push("arbeitet an Maschine, stehend");
     if(document.getElementById("maschineSitzend").checked) position.push("arbeitet an Maschine, sitzend");
-    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit, wodurch ${possessive} Arbeitsabläufe abwechslungsreich und vielseitig gestaltet werden.`);
+    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit, wodurch ${possessive} Arbeitsabläufe abwechslungsreich gestaltet werden.`);
 
     // Belastungen
     let belastungen = [];
@@ -139,7 +139,7 @@ function generateText() {
     if(document.getElementById("armeErhoben").checked) belastungen.push("arbeitet häufig mit erhobenen Armen");
     if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniedhockend");
     if(document.getElementById("geruestet").checked) belastungen.push("arbeitet oft gerüstet oder leitend");
-    if(belastungen.length>0) sentences.push(`Dabei ${belastungen.join(", ")}. Dies fordert ${possessive} körperliche Belastbarkeit und Beweglichkeit.`);
+    if(belastungen.length>0) sentences.push(`Dabei ${belastungen.join(", ")}. Dies erfordert ${possessive} körperliche Belastbarkeit.`);
 
     // Äußere Einflüsse
     let aeussere = [];
@@ -150,12 +150,48 @@ function generateText() {
     if(document.getElementById("zeitdruck").checked) aeussere.push("Zeitdruck");
     if(document.getElementById("zugluft").checked) aeussere.push("Zugluft");
     if(document.getElementById("daempfe").checked) aeussere.push("belastende Dämpfe");
-    if(aeussere.length>0) sentences.push(`Die Arbeit erfolgt unter Einwirkung von ${aeussere.join(", ")} und erfordert entsprechende Vorsichtsmaßnahmen.`);
+    if(aeussere.length>0) sentences.push(`Die Arbeit erfolgt unter Einwirkung von ${aeussere.join(", ")}.`);
 
-    // Verantwortung / Aufgaben
+    // Aufgaben
     let aufgaben = [];
     if(document.getElementById("fuehrung").checked) aufgaben.push("Führungsaufgaben");
     if(document.getElementById("konzentration").checked) aufgaben.push("ständige Konzentration");
     if(document.getElementById("anlage").checked) aufgaben.push("Anlagesteuerung");
     if(document.getElementById("auswaerts").checked) aufgaben.push("Auswärtsmontage");
-    if(document.getElementById
+    if(document.getElementById("edv").checked) aufgaben.push("EDV-Tätigkeit");
+    if(document.getElementById("akkord").checked) aufgaben.push("Akkordarbeit");
+    if(document.getElementById("diaet").checked) aufgaben.push("Diät möglich");
+    if(document.getElementById("reise").checked) aufgaben.push("Reisetätigkeit");
+    if(aufgaben.length>0) sentences.push(`${pronoun} übernimmt ${aufgaben.join(", ")}.`);
+
+    // Überstunden
+    let ueberstunden = document.querySelector("input[name='ueberstunden']:checked")?.value;
+    if(ueberstunden) sentences.push(`${pronoun} muss ${ueberstunden === "Ja" ? "regelmäßig Überstunden leisten" : "keine regelmäßigen Überstunden leisten"}.`);
+
+    // Zufriedenheit
+    let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
+    if(zufriedenheit) {
+        if(zufriedenheit==="Ja") {
+            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden.`);
+        } else {
+            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz nicht vollständig zufrieden, was eventuell Anpassungen erforderlich macht.`);
+        }
+    }
+
+    // Schwindelfreiheit
+    let schwindel = document.querySelector("input[name='schwindelfreiheit']:checked")?.value;
+    if(schwindel) sentences.push(`${pronoun} verfügt über ${schwindel==="Ja" ? "Schwindelfreiheit" : "keine Schwindelfreiheit"} bei der Arbeit.`);
+
+    // Erreichbarkeit
+    let erreich = [];
+    if(document.getElementById("pkw").checked) erreich.push("PKW");
+    if(document.getElementById("fahrrad").checked) erreich.push("Fahrrad");
+    if(document.getElementById("oeffentlich").checked) erreich.push("öffentliche Verkehrsmittel");
+    if(document.getElementById("fuss").checked) erreich.push("zu Fuß");
+    if(erreich.length>0) sentences.push(`Der Arbeitsplatz ist erreichbar mit: ${erreich.join(", ")}.`);
+
+    document.getElementById("result").textContent = sentences.join(" ");
+}
+</script>
+</body>
+</html>
