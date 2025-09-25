@@ -102,7 +102,7 @@ function generateText() {
     // Arbeitszeit
     sentences.push(`${pronoun} ist in ${document.getElementById("arbeitszeit").value}-Beschäftigung tätig und arbeitet ${document.getElementById("regelmaessigkeit").value}. Die tägliche Arbeitszeit beträgt ${document.getElementById("stundenTag").value} Stunden, die wöchentliche Arbeitszeit ${document.getElementById("stundenWoche").value} Stunden.`);
 
-    // Schicht
+    // Schicht (mehrere)
     let schichten = [];
     if(document.getElementById("schichtTag").checked) schichten.push("Tagesschicht");
     if(document.getElementById("schichtSpät").checked) schichten.push("Spätschicht");
@@ -134,41 +134,4 @@ function generateText() {
     if(document.getElementById("armeErhoben").checked) belastungen.push("arbeitet oft mit erhobenen Armen");
     if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniend oder hockend");
     if(document.getElementById("geruestet").checked) belastungen.push("arbeitet auf Gerüsten und Leitern");
-    if(belastungen.length>0) sentences.push(`Belastungen: ${belastungen.join(", ")}.`);
-
-    // Schwindelfreiheit
-    sentences.push(`Erfordernis von Schwindelfreiheit: ${document.getElementById("schwindelfreiheit").value}.`);
-
-    // Umgebung
-    let umfeld = [];
-    if(document.getElementById("freies").checked) umfeld.push("Arbeit im Freien");
-    if(document.getElementById("kuenstlicht").checked) umfeld.push("Arbeit bei künstlichem Licht");
-    if(document.getElementById("hitze").checked) umfeld.push("Hitze");
-    if(document.getElementById("staub").checked) umfeld.push("starke Staubentwicklung");
-    if(document.getElementById("laermZeit").checked) umfeld.push("starker Lärm zeitweilig");
-    if(document.getElementById("witterung").checked) umfeld.push("meist witterungsgeschützt");
-    if(document.getElementById("zugluft").checked) umfeld.push("Zugluft");
-    if(document.getElementById("kaelte").checked) umfeld.push("Kälte");
-    if(document.getElementById("daempfe").checked) umfeld.push("belastende Dämpfe");
-    if(document.getElementById("laermDauer").checked) umfeld.push("starker Lärm dauerhaft");
-    if(umfeld.length>0) sentences.push(`Äußere Einflüsse: ${umfeld.join(", ")}.`);
-
-    // Aufgaben / Verantwortung
-    let aufgaben = [];
-    ["gehoben","essenUnregel","akkord","diaetNicht","fuehrung","konzentration","anlage","auswaerts","edv"].forEach(id=>{
-        if(document.getElementById(id).checked) aufgaben.push(document.querySelector(`label[for='${id}']`)?.textContent || id);
-    });
-    if(aufgaben.length>0) sentences.push(`${pronoun} übernimmt ${aufgaben.join(", ")}.`);
-
-    // Überstunden
-    let ueberstunden = document.querySelector("input[name='ueberstunden']:checked")?.value;
-    if(ueberstunden) sentences.push(`${pronoun} muss ${ueberstunden==="Ja"?"regelmäßig Überstunden leisten":"keine regelmäßigen Überstunden leisten"}.`);
-
-    // Zufriedenheit
-    let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
-    if(zufriedenheit){
-        if(zufriedenheit==="Ja"){
-            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden.`);
-        } else {
-            let grund = document.getElementById("zufriedenWarum").value || "kein Grund angegeben";
-           
+    if
