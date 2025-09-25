@@ -102,12 +102,11 @@ function generateText() {
     // Arbeitszeit
     sentences.push(`${pronoun} ist in ${document.getElementById("arbeitszeit").value}-Beschäftigung tätig und arbeitet ${document.getElementById("regelmaessigkeit").value}. Die tägliche Arbeitszeit beträgt ${document.getElementById("stundenTag").value} Stunden, die wöchentliche Arbeitszeit ${document.getElementById("stundenWoche").value} Stunden.`);
 
-    // Schicht (mehrere)
+    // Schicht
     let schichten = [];
-    if(document.getElementById("schichtTag").checked) schichten.push("Tagesschicht");
-    if(document.getElementById("schichtSpät").checked) schichten.push("Spätschicht");
-    if(document.getElementById("schichtNacht").checked) schichten.push("Nachtschicht");
-    if(document.getElementById("schichtWechsel").checked) schichten.push("Wechselschicht");
+    ["schichtTag","schichtSpät","schichtNacht","schichtWechsel"].forEach(id=>{
+        if(document.getElementById(id).checked) schichten.push(document.getElementById(id).nextSibling.textContent.trim());
+    });
     if(schichten.length>0) sentences.push(`${pronoun} arbeitet in den Schichten: ${schichten.join(", ")}.`);
 
     // Körperliche Position
@@ -126,7 +125,7 @@ function generateText() {
 
     // Belastungen
     let belastungen = [];
-    let lasten = document.getElementById("lasten").value;
+    let lasten = parseInt(document.getElementById("lasten").value);
     if(document.getElementById("heben5kg").checked) belastungen.push("hebt und trägt Lasten bis 5 kg");
     if(document.getElementById("heben5_10kg").checked) belastungen.push("hebt und trägt Lasten 5–10 kg");
     if(lasten>0) belastungen.push(`hebt und trägt Lasten bis ${lasten} kg`);
@@ -134,4 +133,40 @@ function generateText() {
     if(document.getElementById("armeErhoben").checked) belastungen.push("arbeitet oft mit erhobenen Armen");
     if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniend oder hockend");
     if(document.getElementById("geruestet").checked) belastungen.push("arbeitet auf Gerüsten und Leitern");
-    if
+    if(belastungen.length>0) sentences.push(`Belastungen: ${belastungen.join(", ")}.`);
+
+    // Schwindelfreiheit
+    sentences.push(`Erfordernis von Schwindelfreiheit: ${document.getElementById("schwindelfreiheit").value}.`);
+
+    // Umgebung
+    let umfeld = [];
+    ["freies","kuenstlicht","hitze","staub","laermZeit","witterung","zugluft","kaelte","daempfe","laermDauer"].forEach(id=>{
+        if(document.getElementById(id).checked) umfeld.push(document.getElementById(id).nextSibling.textContent.trim());
+    });
+    if(umfeld.length>0) sentences.push(`Äußere Einflüsse: ${umfeld.join(", ")}.`);
+
+    // Aufgaben / Verantwortung
+    let aufgaben = [];
+    ["gehoben","essenUnregel","akkord","diaetNicht","fuehrung","konzentration","anlage","auswaerts","edv"].forEach(id=>{
+        if(document.getElementById(id).checked) aufgaben.push(document.getElementById(id).nextSibling.textContent.trim());
+    });
+    if(aufgaben.length>0) sentences.push(`${pronoun} übernimmt ${aufgaben.join(", ")}.`);
+
+    // Überstunden
+    let ueberstunden = document.querySelector("input[name='ueberstunden']:checked")?.value;
+    if(ueberstunden) sentences.push(`${pronoun} muss ${ueberstunden==="Ja"?"regelmäßig Überstunden leisten":"keine regelmäßigen Überstunden leisten"}.`);
+
+    // Zufriedenheit
+    let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
+    if(zufriedenheit){
+        if(zufriedenheit==="Ja"){
+            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden.`);
+        } else {
+            let grund = document.getElementById("zufriedenWarum").value || "kein Grund angegeben";
+            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz nicht zufrieden, weil ${grund}.`);
+        }
+    }
+
+    // Erreichbarkeit
+    let erreich = [];
+    ["pkw","fahrrad","oeffentlich","
