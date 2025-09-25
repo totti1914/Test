@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Professionelle Tätigkeitsbeschreibung Generator</title>
+<title>Kompletter Tätigkeitsbeschreibung Generator</title>
 <style>
 body { font-family: Arial, sans-serif; margin: 20px; }
 label { display:block; margin-top:10px; }
@@ -13,14 +13,14 @@ h3 { margin-top:20px; }
 </style>
 </head>
 <body>
-<h1>Professionelle Tätigkeitsbeschreibung Generator</h1>
+<h1>Kompletter Tätigkeitsbeschreibung Generator</h1>
 
 <h3>Arbeitszeit</h3>
-<label>Tägliche Arbeitszeit (Stunden): <input type="number" id="stundenTag" min="0" max="24" value="8"></label>
-<label>Wöchentliche Arbeitszeit (Stunden): <input type="number" id="stundenWoche" min="0" max="168" value="40"></label>
+<label>Tägliche Arbeitszeit: <input type="number" id="stundenTag" value="8"></label>
+<label>Wöchentliche Arbeitszeit: <input type="number" id="stundenWoche" value="40"></label>
 <label>Geschlecht:
 <select id="gender"><option value="mann">Mann</option><option value="frau">Frau</option></select></label>
-<label>Arbeitszeit:
+<label>Arbeitszeitart:
 <select id="arbeitszeit"><option value="Vollzeit">Vollzeit</option><option value="Teilzeit">Teilzeit</option></select></label>
 <label>Regelmäßigkeit:
 <select id="regelmaessigkeit"><option value="regelmäßig">regelmäßig</option><option value="unregelmäßig">unregelmäßig</option></select></label>
@@ -39,14 +39,14 @@ h3 { margin-top:20px; }
 <select id="haltungswechsel"><option value="Ja">Ja</option><option value="Nein">Nein</option></select></label>
 <label><input type="checkbox" id="maschineStehend"> An Maschine, stehend</label>
 <label><input type="checkbox" id="maschineSitzend"> An Maschine, sitzend</label>
-<label><input type="checkbox" id="heben5kg"> Heben/Tragen von Lasten bis 5 kg</label>
-<label><input type="checkbox" id="heben5_10kg"> Heben/Tragen von Lasten 5–10 kg</label>
-<label>Heben/Tragen von Lasten (kg, frei wählbar): <input type="number" id="lasten" min="0" value="0"></label>
-<label><input type="checkbox" id="gebueckt"> Oft in gebückter Stellung</label>
+<label><input type="checkbox" id="heben5kg"> Heben/Tragen bis 5 kg</label>
+<label><input type="checkbox" id="heben5_10kg"> Heben/Tragen 5–10 kg</label>
+<label>Heben/Tragen bis (kg): <input type="number" id="lasten" value="0"></label>
+<label><input type="checkbox" id="gebueckt"> Oft gebückt</label>
 <label><input type="checkbox" id="armeErhoben"> Oft mit erhobenen Armen</label>
-<label><input type="checkbox" id="kniedhockend"> Oft kniend / hockend</label>
-<label><input type="checkbox" id="geruestet"> Auf Gerüsten und Leitern</label>
-<label>Erfordernis von Schwindelfreiheit:
+<label><input type="checkbox" id="kniedhockend"> Oft kniend/hockend</label>
+<label><input type="checkbox" id="geruestet"> Auf Gerüsten/Leitern</label>
+<label>Schwindelfreiheit:
 <select id="schwindelfreiheit"><option value="Ja">Ja</option><option value="Nein">Nein</option></select></label>
 
 <h3>Umgebung / äußere Einflüsse</h3>
@@ -80,7 +80,7 @@ h3 { margin-top:20px; }
 <label><input type="radio" name="zufriedenheit" value="Ja" onclick="document.getElementById('zufriedenGrund').style.display='none'"> Ja</label>
 <label><input type="radio" name="zufriedenheit" value="Nein" onclick="document.getElementById('zufriedenGrund').style.display='block'"> Nein</label>
 <div id="zufriedenGrund" style="display:none; margin-top:5px;">
-  Grund: <input type="text" id="zufriedenWarum" placeholder="Warum nicht zufrieden?">
+Grund: <input type="text" id="zufriedenWarum" placeholder="Warum nicht zufrieden?">
 </div>
 
 <h3>Erreichbarkeit</h3>
@@ -93,16 +93,15 @@ h3 { margin-top:20px; }
 <div id="result"></div>
 
 <script>
-function generateText() {
-    let gender = document.getElementById("gender").value;
-    let pronoun = gender==="mann"?"Er":"Sie";
-    let possessive = gender==="mann"?"sein":"ihr";
+function generateText(){
+    let pronoun = document.getElementById("gender").value==="mann"?"Er":"Sie";
+    let possessive = document.getElementById("gender").value==="mann"?"sein":"ihr";
     let sentences = [];
 
     // Arbeitszeit
-    sentences.push(`${pronoun} ist in ${document.getElementById("arbeitszeit").value}-Beschäftigung tätig und arbeitet ${document.getElementById("regelmaessigkeit").value}. Die tägliche Arbeitszeit beträgt ${document.getElementById("stundenTag").value} Stunden, die wöchentliche Arbeitszeit ${document.getElementById("stundenWoche").value} Stunden.`);
+    sentences.push(`${pronoun} arbeitet täglich ${document.getElementById("stundenTag").value} Stunden und wöchentlich ${document.getElementById("stundenWoche").value} Stunden. Art der Beschäftigung: ${document.getElementById("arbeitszeit").value}, ${document.getElementById("regelmaessigkeit").value}.`);
 
-    // Schicht
+    // Schichten
     let schichten = [];
     ["schichtTag","schichtSpät","schichtNacht","schichtWechsel"].forEach(id=>{
         if(document.getElementById(id).checked) schichten.push(document.getElementById(id).nextSibling.textContent.trim());
@@ -110,30 +109,29 @@ function generateText() {
     if(schichten.length>0) sentences.push(`${pronoun} arbeitet in den Schichten: ${schichten.join(", ")}.`);
 
     // Körperliche Position
-    let position = [];
-    if(document.getElementById("stehend").checked) position.push("steht");
-    if(document.getElementById("gehend").checked) position.push("geht");
-    if(document.getElementById("sitzend").checked) position.push("sitzt");
-    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit.`);
+    let pos = [];
+    ["stehend","gehend","sitzend"].forEach(id=>{
+        if(document.getElementById(id).checked) pos.push(document.getElementById(id).nextSibling.textContent.trim());
+    });
+    if(pos.length>0) sentences.push(`${pronoun} ${pos.join(", ")} während der Tätigkeit.`);
     sentences.push(`Haltungswechsel möglich: ${document.getElementById("haltungswechsel").value}.`);
 
     // Maschinenarbeit
     let maschine = [];
-    if(document.getElementById("maschineStehend").checked) maschine.push("arbeitet an Maschine, stehend");
-    if(document.getElementById("maschineSitzend").checked) maschine.push("arbeitet an Maschine, sitzend");
+    ["maschineStehend","maschineSitzend"].forEach(id=>{
+        if(document.getElementById(id).checked) maschine.push(document.getElementById(id).nextSibling.textContent.trim());
+    });
     if(maschine.length>0) sentences.push(`${pronoun} ${maschine.join(", ")}.`);
 
     // Belastungen
-    let belastungen = [];
-    let lasten = parseInt(document.getElementById("lasten").value);
-    if(document.getElementById("heben5kg").checked) belastungen.push("hebt und trägt Lasten bis 5 kg");
-    if(document.getElementById("heben5_10kg").checked) belastungen.push("hebt und trägt Lasten 5–10 kg");
-    if(lasten>0) belastungen.push(`hebt und trägt Lasten bis ${lasten} kg`);
-    if(document.getElementById("gebueckt").checked) belastungen.push("arbeitet oft in gebückter Stellung");
-    if(document.getElementById("armeErhoben").checked) belastungen.push("arbeitet oft mit erhobenen Armen");
-    if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniend oder hockend");
-    if(document.getElementById("geruestet").checked) belastungen.push("arbeitet auf Gerüsten und Leitern");
-    if(belastungen.length>0) sentences.push(`Belastungen: ${belastungen.join(", ")}.`);
+    let belast = [];
+    if(document.getElementById("heben5kg").checked) belast.push("hebt/trägt Lasten bis 5 kg");
+    if(document.getElementById("heben5_10kg").checked) belast.push("hebt/trägt Lasten 5–10 kg");
+    if(document.getElementById("lasten").value>0) belast.push(`hebt/trägt Lasten bis ${document.getElementById("lasten").value} kg`);
+    ["gebueckt","armeErhoben","kniedhockend","geruestet"].forEach(id=>{
+        if(document.getElementById(id).checked) belast.push(document.getElementById(id).nextSibling.textContent.trim());
+    });
+    if(belast.length>0) sentences.push(`Belastungen: ${belast.join(", ")}.`);
 
     // Schwindelfreiheit
     sentences.push(`Erfordernis von Schwindelfreiheit: ${document.getElementById("schwindelfreiheit").value}.`);
@@ -145,7 +143,7 @@ function generateText() {
     });
     if(umfeld.length>0) sentences.push(`Äußere Einflüsse: ${umfeld.join(", ")}.`);
 
-    // Aufgaben / Verantwortung
+    // Aufgaben
     let aufgaben = [];
     ["gehoben","essenUnregel","akkord","diaetNicht","fuehrung","konzentration","anlage","auswaerts","edv"].forEach(id=>{
         if(document.getElementById(id).checked) aufgaben.push(document.getElementById(id).nextSibling.textContent.trim());
@@ -157,16 +155,22 @@ function generateText() {
     if(ueberstunden) sentences.push(`${pronoun} muss ${ueberstunden==="Ja"?"regelmäßig Überstunden leisten":"keine regelmäßigen Überstunden leisten"}.`);
 
     // Zufriedenheit
-    let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
-    if(zufriedenheit){
-        if(zufriedenheit==="Ja"){
-            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden.`);
-        } else {
-            let grund = document.getElementById("zufriedenWarum").value || "kein Grund angegeben";
-            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz nicht zufrieden, weil ${grund}.`);
-        }
+    let zuf = document.querySelector("input[name='zufriedenheit']:checked")?.value;
+    if(zuf==="Ja") sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden.`);
+    if(zuf==="Nein"){
+        let grund = document.getElementById("zufriedenWarum").value || "kein Grund angegeben";
+        sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz nicht zufrieden, weil ${grund}.`);
     }
 
     // Erreichbarkeit
     let erreich = [];
-    ["pkw","fahrrad","oeffentlich","
+    ["pkw","fahrrad","oeffentlich","fuss"].forEach(id=>{
+        if(document.getElementById(id).checked) erreich.push(document.getElementById(id).nextSibling.textContent.trim());
+    });
+    if(erreich.length>0) sentences.push(`Erreichbarkeit: ${erreich.join(", ")}.`);
+
+    document.getElementById("result").innerText = sentences.join(" ");
+}
+</script>
+</body>
+</html>
