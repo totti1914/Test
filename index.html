@@ -53,55 +53,45 @@ h3 { margin-top:20px; }
 <label><input type="checkbox" id="stehend"> Stehend</label>
 <label><input type="checkbox" id="gehend"> Gehend</label>
 <label><input type="checkbox" id="sitzend"> Sitzend</label>
+<label>Haltungswechsel möglich?
+<select id="haltungswechsel">
+<option value="Ja">Ja</option>
+<option value="Nein">Nein</option>
+</select></label>
 
 <h3>Maschinenarbeit</h3>
 <label><input type="checkbox" id="maschineStehend"> An Maschine, stehend</label>
 <label><input type="checkbox" id="maschineSitzend"> An Maschine, sitzend</label>
 
 <h3>Belastungen</h3>
-<label><input type="checkbox" id="heben5kg"> Heben/Tragen bis 5 kg</label>
-<label><input type="checkbox" id="hebenMehr"> Heben/Tragen mehr als 5 kg</label>
+<label>Heben/Tragen von Lasten (kg): <input type="number" id="lasten" min="0" value="0"></label>
 <label><input type="checkbox" id="gebueckt"> Oft gebückt</label>
-<label><input type="checkbox" id="armeErhoben"> Oft mit erhobenen Armen</label>
-<label><input type="checkbox" id="kniedhockend"> Oft kniedhockend</label>
-<label><input type="checkbox" id="geruestet"> Oft gerüstet/leitend</label>
-
-<h3>Äußere Einflüsse</h3>
-<label><input type="checkbox" id="hitze"> Hitze</label>
-<label><input type="checkbox" id="kaelte"> Kälte</label>
-<label><input type="checkbox" id="staub"> Staub</label>
-<label><input type="checkbox" id="laerm"> Lärm</label>
-<label><input type="checkbox" id="zeitdruck"> Zeitdruck</label>
-<label><input type="checkbox" id="zugluft"> Zugluft</label>
-<label><input type="checkbox" id="daempfe"> Belastende Dämpfe</label>
-
-<h3>Verantwortung / Aufgaben</h3>
-<label><input type="checkbox" id="fuehrung"> Führungsaufgaben</label>
-<label><input type="checkbox" id="konzentration"> Ständige Konzentration</label>
-<label><input type="checkbox" id="anlage"> Anlagesteuerung</label>
-<label><input type="checkbox" id="auswaerts"> Auswärtsmontage</label>
-<label><input type="checkbox" id="edv"> EDV-Tätigkeit</label>
-<label><input type="checkbox" id="akkord"> Akkordarbeit</label>
-<label><input type="checkbox" id="diaet"> Diät möglich</label>
-<label><input type="checkbox" id="reise"> Reisetätigkeit</label>
-
-<h3>Überstunden</h3>
-<label><input type="radio" name="ueberstunden" value="Ja"> Ja</label>
-<label><input type="radio" name="ueberstunden" value="Nein"> Nein</label>
-
-<h3>Zufriedenheit</h3>
-<label><input type="radio" name="zufriedenheit" value="Ja"> Ja</label>
-<label><input type="radio" name="zufriedenheit" value="Nein"> Nein</label>
+<label><input type="checkbox" id="kniedhockend"> Oft kniend/hockend</label>
 
 <h3>Schwindelfreiheit</h3>
-<label><input type="radio" name="schwindelfreiheit" value="Ja"> Ja</label>
-<label><input type="radio" name="schwindelfreiheit" value="Nein"> Nein</label>
+<label>Erforderliche Schwindelfreiheit:
+<select id="schwindelfreiheit">
+<option value="Ja">Ja</option>
+<option value="Nein">Nein</option>
+</select></label>
 
-<h3>Erreichbarkeit</h3>
-<label><input type="checkbox" id="pkw"> PKW</label>
-<label><input type="checkbox" id="fahrrad"> Fahrrad</label>
-<label><input type="checkbox" id="oeffentlich"> Öffentliche Verkehrsmittel</label>
-<label><input type="checkbox" id="fuss"> Zu Fuß</label>
+<h3>Arbeit im Umfeld</h3>
+<label><input type="checkbox" id="freies"> Arbeit im Freien</label>
+<label><input type="checkbox" id="kuenstlicht"> Arbeit bei künstlichem Licht</label>
+<label><input type="checkbox" id="hitze"> Hitze</label>
+<label><input type="checkbox" id="staub"> starke Staubentwicklung</label>
+<label><input type="checkbox" id="laermZeit"> starker Lärm zeitweilig</label>
+<label><input type="checkbox" id="witterung"> meist witterungsgeschützt</label>
+<label><input type="checkbox" id="zugluft"> Zugluft</label>
+<label><input type="checkbox" id="kaelte"> Kälte</label>
+<label><input type="checkbox" id="daempfe"> belastende Dämpfe</label>
+<label><input type="checkbox" id="laermDauer"> starker Lärm dauerhaft</label>
+
+<h3>Verantwortung / Aufgaben</h3>
+<label><input type="checkbox" id="gehoben"> Gehobene Verantwortung</label>
+<label><input type="checkbox" id="essenUnregel"> Unregelmäßiges Essen</label>
+<label><input type="checkbox" id="akkord"> Akkordarbeit</label>
+<label><input type="checkbox" id="diaetNicht"> Diät nicht möglich</label>
 
 <button onclick="generateText()">Text generieren</button>
 
@@ -122,73 +112,55 @@ function generateText() {
     let sentences = [];
     sentences.push(`${pronoun} ist in ${arbeitszeit}-Beschäftigung tätig und arbeitet ${regelmaessigkeit} in der ${schicht}. Die tägliche Arbeitszeit beträgt ${stundenTag} Stunden, die wöchentliche Arbeitszeit ${stundenWoche} Stunden.`);
 
-    // Körperliche Position & Maschinenarbeit
+    // Körperliche Position & Haltungswechsel
     let position = [];
     if(document.getElementById("stehend").checked) position.push("steht");
     if(document.getElementById("gehend").checked) position.push("geht");
     if(document.getElementById("sitzend").checked) position.push("sitzt");
-    if(document.getElementById("maschineStehend").checked) position.push("arbeitet an Maschine, stehend");
-    if(document.getElementById("maschineSitzend").checked) position.push("arbeitet an Maschine, sitzend");
-    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit, wodurch ${possessive} Arbeitsabläufe abwechslungsreich gestaltet werden.`);
+    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit.`);
+
+    let haltungswechsel = document.getElementById("haltungswechsel").value;
+    sentences.push(`Haltungswechsel möglich: ${haltungswechsel}.`);
+
+    // Maschinenarbeit
+    let maschine = [];
+    if(document.getElementById("maschineStehend").checked) maschine.push("arbeitet an Maschine, stehend");
+    if(document.getElementById("maschineSitzend").checked) maschine.push("arbeitet an Maschine, sitzend");
+    if(maschine.length>0) sentences.push(`${pronoun} ${maschine.join(", ")}.`);
 
     // Belastungen
+    let lasten = document.getElementById("lasten").value;
     let belastungen = [];
-    if(document.getElementById("heben5kg").checked) belastungen.push("hebt und trägt Lasten bis 5 kg");
-    if(document.getElementById("hebenMehr").checked) belastungen.push("hebt und trägt Lasten über 5 kg");
+    if(lasten>0) belastungen.push(`hebt und trägt Lasten bis ${lasten} kg`);
     if(document.getElementById("gebueckt").checked) belastungen.push("arbeitet häufig gebückt");
-    if(document.getElementById("armeErhoben").checked) belastungen.push("arbeitet häufig mit erhobenen Armen");
-    if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniedhockend");
-    if(document.getElementById("geruestet").checked) belastungen.push("arbeitet oft gerüstet oder leitend");
-    if(belastungen.length>0) sentences.push(`Dabei ${belastungen.join(", ")}. Dies erfordert ${possessive} körperliche Belastbarkeit.`);
-
-    // Äußere Einflüsse
-    let aeussere = [];
-    if(document.getElementById("hitze").checked) aeussere.push("Hitze");
-    if(document.getElementById("kaelte").checked) aeussere.push("Kälte");
-    if(document.getElementById("staub").checked) aeussere.push("Staub");
-    if(document.getElementById("laerm").checked) aeussere.push("Lärm");
-    if(document.getElementById("zeitdruck").checked) aeussere.push("Zeitdruck");
-    if(document.getElementById("zugluft").checked) aeussere.push("Zugluft");
-    if(document.getElementById("daempfe").checked) aeussere.push("belastende Dämpfe");
-    if(aeussere.length>0) sentences.push(`Die Arbeit erfolgt unter Einwirkung von ${aeussere.join(", ")}.`);
-
-    // Aufgaben
-    let aufgaben = [];
-    if(document.getElementById("fuehrung").checked) aufgaben.push("Führungsaufgaben");
-    if(document.getElementById("konzentration").checked) aufgaben.push("ständige Konzentration");
-    if(document.getElementById("anlage").checked) aufgaben.push("Anlagesteuerung");
-    if(document.getElementById("auswaerts").checked) aufgaben.push("Auswärtsmontage");
-    if(document.getElementById("edv").checked) aufgaben.push("EDV-Tätigkeit");
-    if(document.getElementById("akkord").checked) aufgaben.push("Akkordarbeit");
-    if(document.getElementById("diaet").checked) aufgaben.push("Diät möglich");
-    if(document.getElementById("reise").checked) aufgaben.push("Reisetätigkeit");
-    if(aufgaben.length>0) sentences.push(`${pronoun} übernimmt ${aufgaben.join(", ")}.`);
-
-    // Überstunden
-    let ueberstunden = document.querySelector("input[name='ueberstunden']:checked")?.value;
-    if(ueberstunden) sentences.push(`${pronoun} muss ${ueberstunden === "Ja" ? "regelmäßig Überstunden leisten" : "keine regelmäßigen Überstunden leisten"}.`);
-
-    // Zufriedenheit
-    let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
-    if(zufriedenheit) {
-        if(zufriedenheit==="Ja") {
-            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden.`);
-        } else {
-            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz nicht vollständig zufrieden, was eventuell Anpassungen erforderlich macht.`);
-        }
-    }
+    if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniend oder hockend");
+    if(belastungen.length>0) sentences.push(`Belastungen: ${belastungen.join(", ")}.`);
 
     // Schwindelfreiheit
-    let schwindel = document.querySelector("input[name='schwindelfreiheit']:checked")?.value;
-    if(schwindel) sentences.push(`${pronoun} verfügt über ${schwindel==="Ja" ? "Schwindelfreiheit" : "keine Schwindelfreiheit"} bei der Arbeit.`);
+    let schwindel = document.getElementById("schwindelfreiheit").value;
+    sentences.push(`Erfordernis von Schwindelfreiheit: ${schwindel}.`);
 
-    // Erreichbarkeit
-    let erreich = [];
-    if(document.getElementById("pkw").checked) erreich.push("PKW");
-    if(document.getElementById("fahrrad").checked) erreich.push("Fahrrad");
-    if(document.getElementById("oeffentlich").checked) erreich.push("öffentliche Verkehrsmittel");
-    if(document.getElementById("fuss").checked) erreich.push("zu Fuß");
-    if(erreich.length>0) sentences.push(`Der Arbeitsplatz ist erreichbar mit: ${erreich.join(", ")}.`);
+    // Umgebung
+    let umfeld = [];
+    if(document.getElementById("freies").checked) umfeld.push("Arbeit im Freien");
+    if(document.getElementById("kuenstlicht").checked) umfeld.push("Arbeit bei künstlichem Licht");
+    if(document.getElementById("hitze").checked) umfeld.push("Hitze");
+    if(document.getElementById("staub").checked) umfeld.push("starke Staubentwicklung");
+    if(document.getElementById("laermZeit").checked) umfeld.push("starker Lärm zeitweilig");
+    if(document.getElementById("witterung").checked) umfeld.push("meist witterungsgeschützt");
+    if(document.getElementById("zugluft").checked) umfeld.push("Zugluft");
+    if(document.getElementById("kaelte").checked) umfeld.push("Kälte");
+    if(document.getElementById("daempfe").checked) umfeld.push("belastende Dämpfe");
+    if(document.getElementById("laermDauer").checked) umfeld.push("starker Lärm dauerhaft");
+    if(umfeld.length>0) sentences.push(`Äußere Einflüsse: ${umfeld.join(", ")}.`);
+
+    // Aufgaben / Verantwortung
+    let aufgaben = [];
+    if(document.getElementById("gehoben").checked) aufgaben.push("gehobene Verantwortung");
+    if(document.getElementById("essenUnregel").checked) aufgaben.push("unregelmäßiges Essen");
+    if(document.getElementById("akkord").checked) aufgaben.push("Akkordarbeit");
+    if(document.getElementById("diaetNicht").checked) aufgaben.push("Diät nicht möglich");
+    if(aufgaben.length>0) sentences.push(`${pronoun} übernimmt ${aufgaben.join(", ")}.`);
 
     document.getElementById("result").textContent = sentences.join(" ");
 }
