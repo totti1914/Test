@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Tätigkeitsbeschreibung Generator</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  h2 { margin-top: 30px; }
+  .section { margin-bottom: 20px; }
+  textarea { width: 100%; height: 200px; margin-top: 20px; }
+  button { margin-top: 15px; padding: 10px 15px; font-size: 16px; }
+</style>
+</head>
+<body>
+
+<h1>Tätigkeitsbeschreibung Generator</h1>
+
+<div class="section">
+  <h2>Arbeitszeit</h2>
+  <select id="arbeitszeit">
+    <option value="">-- bitte wählen --</option>
+    <option value="Vollzeit">Vollzeit</option>
+    <option value="Teilzeit">Teilzeit</option>
+  </select>
+</div>
+
+<div class="section">
+  <h2>Regelmäßigkeit</h2>
+  <select id="regelmaessigkeit">
+    <option value="">-- bitte wählen --</option>
+    <option value="regelmäßig">regelmäßig</option>
+    <option value="unregelmäßig">unregelmäßig</option>
+  </select>
+</div>
+
+<div class="section">
+  <h2>Schicht</h2>
+  <select id="schicht">
+    <option value="">-- bitte wählen --</option>
+    <option value="Tagesschicht">Tagesschicht</option>
+    <option value="Spätschicht">Spätschicht</option>
+    <option value="Nachtschicht">Nachtschicht</option>
+    <option value="Wechselschicht">Wechselschicht</option>
+  </select>
+</div>
+
+<div class="section">
+  <h2>Körperliche Position</h2>
+  <label><input type="checkbox" value="Stehend"> Stehend</label><br>
+  <label><input type="checkbox" value="Gehend"> Gehend</label><br>
+  <label><input type="checkbox" value="Sitzend"> Sitzend</label>
+</div>
+
+<div class="section">
+  <h2>Körperliche Belastungen</h2>
+  <label><input type="checkbox" value="oft gebückt"> Gebückt</label><br>
+  <label><input type="checkbox" value="mit erhobenem Arm"> Arm erhoben</label><br>
+  <label><input type="checkbox" value="kniedhockend"> Kniedhockend</label><br>
+  <label><input type="checkbox" value="gerüstet/leitend"> Gerüstet/Leitend</label>
+</div>
+
+<div class="section">
+  <h2>Äußere Einflüsse</h2>
+  <label><input type="checkbox" value="Hitze"> Hitze</label><br>
+  <label><input type="checkbox" value="Kälte"> Kälte</label><br>
+  <label><input type="checkbox" value="Staub"> Staub</label><br>
+  <label><input type="checkbox" value="Lärm"> Lärm</label><br>
+  <label><input type="checkbox" value="Zeitdruck"> Zeitdruck</label><br>
+  <label><input type="checkbox" value="Zugluft"> Zugluft</label><br>
+  <label><input type="checkbox" value="belastende Dämpfe"> Belastende Dämpfe</label>
+</div>
+
+<div class="section">
+  <h2>Verantwortung / Aufgaben</h2>
+  <label><input type="checkbox" value="Führungsaufgaben"> Führungsaufgaben</label><br>
+  <label><input type="checkbox" value="ständige Konzentration"> Konzentration</label><br>
+  <label><input type="checkbox" value="Anlagesteuerung"> Anlagesteuerung</label><br>
+  <label><input type="checkbox" value="Auswärtsmontage"> Auswärtsmontage</label><br>
+  <label><input type="checkbox" value="EDV-Tätigkeit"> EDV-Tätigkeit</label><br>
+  <label><input type="checkbox" value="Akkordarbeit"> Akkord</label><br>
+  <label><input type="checkbox" value="Reisetätigkeit"> Reisetätigkeit</label>
+</div>
+
+<div class="section">
+  <h2>Überstunden</h2>
+  <label><input type="radio" name="ueberstunden" value="Ja"> Ja</label>
+  <label><input type="radio" name="ueberstunden" value="Nein"> Nein</label>
+</div>
+
+<div class="section">
+  <h2>Zufriedenheit</h2>
+  <label><input type="radio" name="zufriedenheit" value="Ja"> Ja</label>
+  <label><input type="radio" name="zufriedenheit" value="Nein"> Nein</label>
+</div>
+
+<div class="section">
+  <h2>Schwindelfreiheit</h2>
+  <label><input type="radio" name="schwindel" value="Ja"> Ja</label>
+  <label><input type="radio" name="schwindel" value="Nein"> Nein</label>
+</div>
+
+<div class="section">
+  <h2>Erreichbarkeit</h2>
+  <label><input type="checkbox" value="PKW"> PKW</label><br>
+  <label><input type="checkbox" value="Fahrrad"> Fahrrad</label><br>
+  <label><input type="checkbox" value="ÖPNV"> ÖPNV</label><br>
+  <label><input type="checkbox" value="zu Fuß"> zu Fuß</label>
+</div>
+
+<button onclick="generiereText()">Text generieren</button>
+
+<h2>Generierter Text</h2>
+<textarea id="output"></textarea>
+
+<script>
+function getSelectedValues(selector) {
+  let values = [];
+  document.querySelectorAll(selector).forEach(el => {
+    if (el.checked) values.push(el.value);
+  });
+  return values.join(", ");
+}
+
+function getRadioValue(name) {
+  let el = document.querySelector("input[name='" + name + "']:checked");
+  return el ? el.value : "";
+}
+
+function generiereText() {
+  let text = "Tätigkeitsbeschreibung:\n\n";
+  text += "Arbeitszeit: " + document.getElementById("arbeitszeit").value + ".\n";
+  text += "Regelmäßigkeit: " + document.getElementById("regelmaessigkeit").value + ".\n";
+  text += "Schicht: " + document.getElementById("schicht").value + ".\n";
+
+  let pos = getSelectedValues("input[type=checkbox][value='Stehend'], input[type=checkbox][value='Gehend'], input[type=checkbox][value='Sitzend']");
+  if (pos) text += "Position: " + pos + ".\n";
+
+  let belastung = getSelectedValues(".section:nth-of-type(5) input[type=checkbox]");
+  if (belastung) text += "Belastungen: " + belastung + ".\n";
+
+  let einfl = getSelectedValues(".section:nth-of-type(6) input[type=checkbox]");
+  if (einfl) text += "Äußere Einflüsse: " + einfl + ".\n";
+
+  let verant = getSelectedValues(".section:nth-of-type(7) input[type=checkbox]");
+  if (verant) text += "Verantwortung: " + verant + ".\n";
+
+  let ueber = getRadioValue("ueberstunden");
+  if (ueber) text += "Überstunden: " + ueber + ".\n";
+
+  let zufr = getRadioValue("zufriedenheit");
+  if (zufr) text += "Zufriedenheit: " + zufr + ".\n";
+
+  let schwind = getRadioValue("schwindel");
+  if (schwind) text += "Schwindelfreiheit: " + schwind + ".\n";
+
+  let erreich = getSelectedValues(".section:nth-of-type(11) input[type=checkbox]");
+  if (erreich) text += "Erreichbarkeit: " + erreich + ".\n";
+
+  document.getElementById("output").value = text;
+}
+</script>
+
+</body>
+</html>
