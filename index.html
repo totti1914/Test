@@ -1,86 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Work Profile Generator</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    label { display: block; margin-top: 10px; }
-    select, input[type="checkbox"] { margin-top: 5px; }
-    button { margin-top: 20px; padding: 10px; }
-    #result { margin-top: 30px; padding: 15px; border: 1px solid #ccc; background: #f9f9f9; }
-  </style>
+<meta charset="UTF-8">
+<title>Tätigkeitsbeschreibung Generator</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  label { display: block; margin-top: 10px; }
+  select, input[type="checkbox"], input[type="radio"] { margin-top: 5px; }
+  button { margin-top: 20px; padding: 10px; }
+  #result { margin-top: 30px; padding: 15px; border: 1px solid #ccc; background: #f9f9f9; white-space: pre-wrap; }
+</style>
 </head>
 <body>
-  <h1>Work Profile Generator</h1>
+<h1>Tätigkeitsbeschreibung Generator</h1>
 
-  <!-- Gender -->
-  <label>
-    Gender:
-    <select id="gender">
-      <option value="man">Man</option>
-      <option value="woman">Woman</option>
-    </select>
-  </label>
+<!-- Gender -->
+<label>
+  Geschlecht:
+  <select id="gender">
+    <option value="mann">Mann</option>
+    <option value="frau">Frau</option>
+  </select>
+</label>
 
-  <!-- Work time -->
-  <label>
-    Work Time:
-    <select id="worktime">
-      <option value="full-time">Full-time</option>
-      <option value="part-time">Part-time</option>
-    </select>
-  </label>
+<!-- Arbeitszeit -->
+<label>
+  Arbeitszeit:
+  <select id="arbeitszeit">
+    <option value="Vollzeit">Vollzeit</option>
+    <option value="Teilzeit">Teilzeit</option>
+  </select>
+</label>
 
-  <!-- Shifts -->
-  <label>
-    Shift:
-    <select id="shift">
-      <option value="day shift">Day shift</option>
-      <option value="late shift">Late shift</option>
-      <option value="night shift">Night shift</option>
-      <option value="rotating shifts">Rotating shifts</option>
-    </select>
-  </label>
+<!-- Regelmäßigkeit -->
+<label>
+  Regelmäßigkeit:
+  <select id="regelmaessigkeit">
+    <option value="regelmäßig">regelmäßig</option>
+    <option value="unregelmäßig">unregelmäßig</option>
+  </select>
+</label>
 
-  <!-- Work type -->
-  <label><input type="checkbox" id="standing"> Standing</label>
-  <label><input type="checkbox" id="sitting"> Sitting</label>
-  <label><input type="checkbox" id="walking"> Walking</label>
+<!-- Schicht -->
+<label>
+  Schicht:
+  <select id="schicht">
+    <option value="Tagesschicht">Tagesschicht</option>
+    <option value="Spätschicht">Spätschicht</option>
+    <option value="Nachtschicht">Nachtschicht</option>
+    <option value="Wechselschicht">Wechselschicht</option>
+  </select>
+</label>
 
-  <!-- Extra conditions -->
-  <label><input type="checkbox" id="lifting"> Lifting up to 5kg</label>
-  <label><input type="checkbox" id="bending"> Frequent bending</label>
-  <label><input type="checkbox" id="arms"> Arms raised often</label>
+<!-- Körperliche Position -->
+<h3>Körperliche Position</h3>
+<label><input type="checkbox" id="stehend"> Stehend</label>
+<label><input type="checkbox" id="gehend"> Gehend</label>
+<label><input type="checkbox" id="sitzend"> Sitzend</label>
 
-  <button onclick="generateText()">Generate Text</button>
+<!-- Maschinenarbeit -->
+<h3>Maschinenarbeit</h3>
+<label><input type="checkbox" id="maschineStehend"> An Maschine, stehend</label>
+<label><input type="checkbox" id="maschineSitzend"> An Maschine, sitzend</label>
 
-  <div id="result"></div>
+<!-- Belastung -->
+<h3>Belastungen</h3>
+<label><input type="checkbox" id="heben5kg"> Heben/Tragen bis 5 kg</label>
+<label><input type="checkbox" id="hebenMehr"> Heben/Tragen mehr als 5 kg</label>
+<label><input type="checkbox" id="gebueckt"> Oft gebückt</label>
+<label><input type="checkbox" id="armeErhoben"> Oft mit erhobenen Armen</label>
+<label><input type="checkbox" id="kniedhockend"> Oft kniedhockend</label>
+<label><input type="checkbox" id="geruestet"> Oft gerüstet/leitend</label>
 
-  <script>
-    function generateText() {
-      let gender = document.getElementById("gender").value;
-      let pronoun = (gender === "man") ? "He" : "She";
-      let possessive = (gender === "man") ? "his" : "her";
+<!-- Äußere Einflüsse -->
+<h3>Äußere Einflüsse</h3>
+<label><input type="checkbox" id="hitze"> Hitze</label>
+<label><input type="checkbox" id="kälte"> Kälte</label>
+<label><input type="checkbox" id="staub"> Staub</label>
+<label><input type="checkbox" id="laerm"> Lärm</label>
+<label><input type="checkbox" id="zeitdruck"> Zeitdruck</label>
+<label><input type="checkbox" id="zugluft"> Zugluft</label>
+<label><input type="checkbox" id="daempfe"> Belastende Dämpfe</label>
 
-      let worktime = document.getElementById("worktime").value;
-      let shift = document.getElementById("shift").value;
+<!-- Verantwortung / Aufgaben -->
+<h3>Verantwortung / Aufgaben</h3>
+<label><input type="checkbox" id="fuehrung"> Führungsaufgaben</label>
+<label><input type="checkbox" id="konzentration"> Ständige Konzentration</label>
+<label><input type="checkbox" id="anlage"> Anlagesteuerung</label>
+<label><input type="checkbox" id="auswaerts"> Auswärtsmontage</label>
+<label><input type="checkbox" id="edv"> EDV-Tätigkeit</label>
+<label><input type="checkbox" id="akkord"> Akkordarbeit</label>
+<label><input type="checkbox" id="diät"> Diät möglich</label>
+<label><input type="checkbox" id="reisetätigkeit"> Reisetätigkeit</label>
 
-      let details = [];
-      if (document.getElementById("standing").checked) details.push("works standing");
-      if (document.getElementById("sitting").checked) details.push("works sitting");
-      if (document.getElementById("walking").checked) details.push("works walking");
-      if (document.getElementById("lifting").checked) details.push("is required to lift up to 5kg");
-      if (document.getElementById("bending").checked) details.push("often works in a bent position");
-      if (document.getElementById("arms").checked) details.push("often works with raised arms");
+<!-- Überstunden -->
+<h3>Überstunden</h3>
+<label><input type="radio" name="ueberstunden" value="Ja"> Ja</label>
+<label><input type="radio" name="ueberstunden" value="Nein"> Nein</label>
 
-      let text = pronoun + " works in " + worktime + " employment, usually in " + shift + ". ";
-      if (details.length > 0) {
-        text += pronoun + " " + details.join(", ") + ".";
-      }
+<!-- Zufriedenheit -->
+<h3>Zufriedenheit</h3>
+<label><input type="radio" name="zufriedenheit" value="Ja"> Ja</label>
+<label><input type="radio" name="zufriedenheit" value="Nein"> Nein</label>
 
-      document.getElementById("result").innerHTML = "<p>" + text + "</p>";
-    }
-  </script>
-</body>
-</html>
+<!-- Schwindelfreiheit -->
+<h3>Schwindelfreiheit</h3>
+<label><input type="radio" name="schwindelfreiheit" value="Ja"> Ja</label>
+<label><input type="radio" name="schwindelfreiheit" value="Nein"> Nein</label>
+
+<!-- Erreichbarkeit -->
+<h3>Erreichbarkeit</h3>
+<label><input type="checkbox" id="pkw"> PKW</label>
+<label><input type="checkbox" id="fahrrad"> Fahrrad</label>
+<label><input type="checkbox" id="oeffentlich"> Öffentliche Verkehrsmittel</label>
+<label><input type="checkbox" id="fuss"> Zu Fuß</label>
+
+<button onclick="generateText()">Text generieren</button>
+
+<div id="result"></div>
+
+<script>
+function generateText() {
+  let gender = document.getElementById("gender").value;
+  let pronoun = (gender === "mann") ? "Er" : "Sie";
+  let possessive = (gender === "mann") ? "sein" : "ihr";
+
+  let arbeitszeit = document.getElementById("arbeitszeit").value;
+  let regelmaessigkeit = document.getElementById("regelmaessigkeit").value;
+  let schicht = document.getElementById("schicht").value;
+
+  let details = [];
+
+  // Körperliche Position
+  if(document.getElementById("stehend").checked) details.push("steht");
+  if(document.getElementById("gehend").checked) details.push("geht");
+  if(document.getElementById("sitzend").checked) details.push("sitzt");
+
+  // Maschinenarbeit
+  if(document.getElementById("maschineStehend").checked) details.push("arbeitet an Maschine, stehend");
+  if(document.getElementById("maschineSitzend").checked) details.push("arbeitet an Maschine, sitzend");
+
+  // Belastungen
+  if(document.getElementById("heben5kg").checked) details.push("hebt und trägt bis 5 kg");
+  if(document.getElementById("hebenMehr").checked) details.push("hebt und trägt mehr als 5 kg");
+  if(document.getElementById("gebueckt").checked) details.push("arbeitet oft gebückt");
+  if(document.getElementById("armeErhoben").checked) details.push("arbeitet oft mit erhobenen Armen");
+  if(document.getElementById("kniedhockend").checked) details.push("arbeitet oft kniedhockend");
+  if(document.getElementById("geruestet").checked) details.push("arbeitet oft gerüstet/leitend");
+
+  // Äußere Einflüsse
+  if(document.getElementById("hitze").checked) details.push("Hitze");
+  if(document.getElementById("kälte").checked) details.push("Kälte");
+  if(document.getElementById("staub").checked) details.push("Staub");
+  if(document.getElementById("laerm").checked) details.push("Lärm");
+  if(document.getElementById("zeitdruck").checked) details.push("Zeitdruck");
+  if(document.getElementById("zugluft").checked) details.push("Zugluft");
+  if(document.getElementById("daempfe").checked) details.push("belastende Dämpfe");
+
+  // Verantwortung / Aufgaben
+  if(document.getElementById("fuehrung").checked) details.push("Führungsaufgaben");
+  if(document.getElementById("konzentration").checked) details.push("ständige Konzentration");
+  if(document.getElementById("anlage").checked) details.push("Anlagesteuerung");
+  if(document.getElementById("auswaerts").checked) details.push("Auswärtsmontage");
+  if(document.getElementById("edv").checked) details.push("EDV-Tätigkeit");
+  if(document.getElementById("akkord").checked) details.push("Akkordarbeit");
+  if(document.getElementById("diät").checked) details.push("Diät möglich");
+  if(document.getElementById("reisetätigkeit").checked) details.push("Reisetätigkeit");
+
+  // Überstunden
+  let ueberstunden = document.querySelector("input[name='ueberstunden']:checked")?.value;
+  if(ueberstunden) details.push("Überstunden: " + ueberstunden);
+
+  // Zufriedenheit
+  let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
+  if(zufriedenheit) details.push("Zufriedenheit: " + zufriedenheit);
+
+  // Schwindelfreiheit
+  let schwindel = document.querySelector("input[name='schwindelfreiheit']:checked")?.value;
+  if(schwindel) details.push("Schwindelfreiheit: " + schwindel);
+
+  // Erreichbarkeit
+  let erreich = [];
+  if(document.getElementById("pkw").checked) erreich.push("PKW");
+  if(document.getElementById("fahrrad").checked) erreich.push("Fahrrad");
+  if(document.getElementById("oeffentlich
