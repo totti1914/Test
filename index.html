@@ -6,6 +6,7 @@
 <style>
 body { font-family: Arial; margin: 20px; }
 label { display:block; margin-top:10px; }
+input[type="number"] { width: 60px; margin-left: 5px; }
 button { margin-top:20px; padding:10px; }
 #result { margin-top:30px; padding:15px; border:1px solid #ccc; background:#f9f9f9; white-space: pre-wrap; }
 h3 { margin-top:20px; }
@@ -13,6 +14,15 @@ h3 { margin-top:20px; }
 </head>
 <body>
 <h1>Professionelle Tätigkeitsbeschreibung Generator</h1>
+
+<!-- Arbeitsstunden -->
+<h3>Arbeitszeit pro Tag / Woche</h3>
+<label>Tägliche Arbeitszeit (Stunden):
+<input type="number" id="stundenTag" min="0" max="24" value="8">
+</label>
+<label>Wöchentliche Arbeitszeit (Stunden):
+<input type="number" id="stundenWoche" min="0" max="168" value="40">
+</label>
 
 <!-- Geschlecht -->
 <label>Geschlecht:
@@ -112,14 +122,14 @@ function generateText() {
     let pronoun = (gender==="mann")?"Er":"Sie";
     let possessive = (gender==="mann")?"sein":"ihr";
 
+    let stundenTag = document.getElementById("stundenTag").value;
+    let stundenWoche = document.getElementById("stundenWoche").value;
     let arbeitszeit = document.getElementById("arbeitszeit").value;
     let regelmaessigkeit = document.getElementById("regelmaessigkeit").value;
     let schicht = document.getElementById("schicht").value;
 
     let sentences = [];
-
-    // Intro
-    sentences.push(`${pronoun} ist in ${arbeitszeit}-Beschäftigung tätig und arbeitet ${regelmaessigkeit} in der ${schicht}.`);
+    sentences.push(`${pronoun} ist in ${arbeitszeit}-Beschäftigung tätig und arbeitet ${regelmaessigkeit} in der ${schicht}. Die tägliche Arbeitszeit beträgt ${stundenTag} Stunden, die wöchentliche Arbeitszeit ${stundenWoche} Stunden.`);
 
     // Körperliche Position & Maschinenarbeit
     let position = [];
@@ -128,7 +138,7 @@ function generateText() {
     if(document.getElementById("sitzend").checked) position.push("sitzt");
     if(document.getElementById("maschineStehend").checked) position.push("arbeitet an Maschine, stehend");
     if(document.getElementById("maschineSitzend").checked) position.push("arbeitet an Maschine, sitzend");
-    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit.`);
+    if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit, was eine abwechslungsreiche körperliche Beanspruchung sicherstellt.`);
 
     // Belastungen
     let belastungen = [];
@@ -138,7 +148,7 @@ function generateText() {
     if(document.getElementById("armeErhoben").checked) belastungen.push("arbeitet häufig mit erhobenen Armen");
     if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniedhockend");
     if(document.getElementById("geruestet").checked) belastungen.push("arbeitet oft gerüstet oder leitend");
-    if(belastungen.length>0) sentences.push(`Dabei ${belastungen.join(", ")}.`);
+    if(belastungen.length>0) sentences.push(`Dabei ${belastungen.join(", ")}, wodurch ${possessive} körperliche Belastbarkeit gefordert ist.`);
 
     // Äußere Einflüsse
     let aeussere = [];
@@ -146,16 +156,4 @@ function generateText() {
     if(document.getElementById("kaelte").checked) aeussere.push("Kälte");
     if(document.getElementById("staub").checked) aeussere.push("Staub");
     if(document.getElementById("laerm").checked) aeussere.push("Lärm");
-    if(document.getElementById("zeitdruck").checked) aeussere.push("Zeitdruck");
-    if(document.getElementById("zugluft").checked) aeussere.push("Zugluft");
-    if(document.getElementById("daempfe").checked) aeussere.push("belastende Dämpfe");
-    if(aeussere.length>0) sentences.push(`Die Arbeit erfolgt unter Einwirkung von ${aeussere.join(", ")}.`);
-
-    // Verantwortung / Aufgaben
-    let aufgaben = [];
-    if(document.getElementById("fuehrung").checked) aufgaben.push("Führungsaufgaben");
-    if(document.getElementById("konzentration").checked) aufgaben.push("ständige Konzentration");
-    if(document.getElementById("anlage").checked) aufgaben.push("Anlagesteuerung");
-    if(document.getElementById("auswaerts").checked) aufgaben.push("Auswärtsmontage");
-    if(document.getElementById("edv").checked) aufgaben.push("EDV-Tätigkeit");
-    if(document.getElementById("akkord").checked) aufgaben.push("Akkordarbeit");
+    if(document.getElementById("zeitdruck").checked) aeuss
