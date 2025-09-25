@@ -2,7 +2,8 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Eleganter Tätigkeitsbeschreibung Generator</title>
+<meta charset="UTF-8">
+<title>Natürlicher Tätigkeitsbeschreibung Generator</title>
 <style>
 body { font-family: Arial, sans-serif; margin: 20px; }
 label { display:block; margin-top:10px; }
@@ -13,7 +14,7 @@ h3 { margin-top:20px; }
 </style>
 </head>
 <body>
-<h1>Eleganter Tätigkeitsbeschreibung Generator</h1>
+<h1>Natürlicher Tätigkeitsbeschreibung Generator</h1>
 
 <h3>Allgemeine Angaben</h3>
 <label>Arbeit als: <input type="text" id="arbeitAls" placeholder="z.B. Maschinenbediener/in"></label>
@@ -100,30 +101,30 @@ function generateText(){
     let sentences = [];
 
     let arbeitAls = document.getElementById("arbeitAls").value || "Tätigkeit";
+
     // Elegante Einleitung
-    sentences.push(`${pronoun} ist als ${arbeitAls} tätig. ${pronoun} arbeitet täglich ${document.getElementById("stundenTag").value} Stunden und wöchentlich ${document.getElementById("stundenWoche").value} Stunden, ${document.getElementById("arbeitszeit").value} und ${document.getElementById("regelmaessigkeit").value}.`);
+    sentences.push(`${pronoun} ist als ${arbeitAls} tätig. Dabei umfasst ${possessive} Arbeitszeit täglich ${document.getElementById("stundenTag").value} Stunden und wöchentlich ${document.getElementById("stundenWoche").value} Stunden, ${document.getElementById("arbeitszeit").value} und ${document.getElementById("regelmaessigkeit").value}.`);
 
     // Schichten
     let schichten = [];
     ["schichtTag","schichtSpät","schichtNacht","schichtWechsel"].forEach(id=>{
         if(document.getElementById(id).checked) schichten.push(document.getElementById(id).nextSibling.textContent.trim());
     });
-    if(schichten.length>0) sentences.push(`Die Arbeit erfolgt in den Schichten: ${schichten.join(", ")}.`);
+    if(schichten.length>0) sentences.push(`Die Arbeit findet in den Schichten ${schichten.join(", ")} statt, sodass ${pronoun.toLowerCase()} flexibel auf unterschiedliche Zeitabschnitte eingeht.`);
 
     // Körperliche Position
     let pos = [];
     ["stehend","gehend","sitzend"].forEach(id=>{
         if(document.getElementById(id).checked) pos.push(document.getElementById(id).nextSibling.textContent.trim());
     });
-    if(pos.length>0) sentences.push(`${pronoun} ist während der Tätigkeit ${pos.join(", ")} tätig.`);
-    sentences.push(`Haltungswechsel ist ${document.getElementById("haltungswechsel").value.toLowerCase()}.`);
+    if(pos.length>0) sentences.push(`Während der Tätigkeit ist ${pronoun.toLowerCase()} überwiegend ${pos.join(", ")} tätig, wobei Haltungswechsel ${document.getElementById("haltungswechsel").value.toLowerCase()} möglich sind.`);
 
     // Maschinenarbeit
     let maschine = [];
     ["maschineStehend","maschineSitzend"].forEach(id=>{
         if(document.getElementById(id).checked) maschine.push(document.getElementById(id).nextSibling.textContent.trim());
     });
-    if(maschine.length>0) sentences.push(`${pronoun} ${maschine.join(", ")}.`);
+    if(maschine.length>0) sentences.push(`Zudem ${pronoun.toLowerCase()} ${maschine.join(", ")}.`);
 
     // Belastungen
     let belast = [];
@@ -133,22 +134,21 @@ function generateText(){
     ["gebueckt","armeErhoben","kniedhockend","geruestet"].forEach(id=>{
         if(document.getElementById(id).checked) belast.push(document.getElementById(id).nextSibling.textContent.trim());
     });
-    if(belast.length>0) sentences.push(`Dabei treten folgende körperliche Belastungen auf: ${belast.join(", ")}.`);
-    sentences.push(`Erfordernis von Schwindelfreiheit: ${document.getElementById("schwindelfreiheit").value}.`);
+    if(belast.length>0) sentences.push(`Die Arbeit erfordert körperliche Belastungen wie ${belast.join(", ")}. Schwindelfreiheit ist dabei ${document.getElementById("schwindelfreiheit").value.toLowerCase()}.`);
 
     // Umgebung
     let umfeld = [];
     ["freies","kuenstlicht","hitze","staub","laermZeit","witterung","zugluft","kaelte","daempfe","laermDauer"].forEach(id=>{
         if(document.getElementById(id).checked) umfeld.push(document.getElementById(id).nextSibling.textContent.trim());
     });
-    if(umfeld.length>0) sentences.push(`Die Tätigkeit findet unter Einflüssen wie ${umfeld.join(", ")} statt.`);
+    if(umfeld.length>0) sentences.push(`Darüber hinaus findet die Tätigkeit unter äußeren Einflüssen wie ${umfeld.join(", ")} statt, die ${pronoun.toLowerCase()} beachten muss.`);
 
     // Aufgaben
     let aufgaben = [];
     ["gehoben","essenUnregel","akkord","diaetNicht","fuehrung","konzentration","anlage","auswaerts","edv"].forEach(id=>{
         if(document.getElementById(id).checked) aufgaben.push(document.getElementById(id).nextSibling.textContent.trim());
     });
-    if(aufgaben.length>0) sentences.push(`${pronoun} übernimmt zudem Aufgaben wie ${aufgaben.join(", ")}.`);
+    if(aufgaben.length>0) sentences.push(`Zu den Aufgaben zählen unter anderem ${aufgaben.join(", ")}, wodurch ${pronoun.toLowerCase()} Verantwortung und Präzision zeigen muss.`);
 
     // Überstunden
     let ueberstunden = document.querySelector("input[name='ueberstunden']:checked")?.value;
@@ -156,7 +156,7 @@ function generateText(){
 
     // Zufriedenheit
     let zuf = document.querySelector("input[name='zufriedenheit']:checked")?.value;
-    if(zuf==="Ja") sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden.`);
+    if(zuf==="Ja") sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden und führt die Aufgaben mit Engagement aus.`);
     if(zuf==="Nein"){
         let grund = document.getElementById("zufriedenWarum").value || "kein Grund angegeben";
         sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz nicht zufrieden, da ${grund}.`);
