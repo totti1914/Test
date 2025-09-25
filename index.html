@@ -15,49 +15,24 @@ h3 { margin-top:20px; }
 <body>
 <h1>Professionelle Tätigkeitsbeschreibung Generator</h1>
 
-<h3>Arbeitszeit pro Tag / Woche</h3>
+<h3>Arbeitszeit</h3>
 <label>Tägliche Arbeitszeit (Stunden): <input type="number" id="stundenTag" min="0" max="24" value="8"></label>
 <label>Wöchentliche Arbeitszeit (Stunden): <input type="number" id="stundenWoche" min="0" max="168" value="40"></label>
-
 <label>Geschlecht:
-<select id="gender">
-<option value="mann">Mann</option>
-<option value="frau">Frau</option>
-</select>
-</label>
-
+<select id="gender"><option value="mann">Mann</option><option value="frau">Frau</option></select></label>
 <label>Arbeitszeit:
-<select id="arbeitszeit">
-<option value="Vollzeit">Vollzeit</option>
-<option value="Teilzeit">Teilzeit</option>
-</select>
-</label>
-
+<select id="arbeitszeit"><option value="Vollzeit">Vollzeit</option><option value="Teilzeit">Teilzeit</option></select></label>
 <label>Regelmäßigkeit:
-<select id="regelmaessigkeit">
-<option value="regelmäßig">regelmäßig</option>
-<option value="unregelmäßig">unregelmäßig</option>
-</select>
-</label>
-
+<select id="regelmaessigkeit"><option value="regelmäßig">regelmäßig</option><option value="unregelmäßig">unregelmäßig</option></select></label>
 <label>Schicht:
-<select id="schicht">
-<option value="Tagesschicht">Tagesschicht</option>
-<option value="Spätschicht">Spätschicht</option>
-<option value="Nachtschicht">Nachtschicht</option>
-<option value="Wechselschicht">Wechselschicht</option>
-</select>
-</label>
+<select id="schicht"><option value="Tagesschicht">Tagesschicht</option><option value="Spätschicht">Spätschicht</option><option value="Nachtschicht">Nachtschicht</option><option value="Wechselschicht">Wechselschicht</option></select></label>
 
 <h3>Körperliche Position</h3>
 <label><input type="checkbox" id="stehend"> Stehend</label>
 <label><input type="checkbox" id="gehend"> Gehend</label>
 <label><input type="checkbox" id="sitzend"> Sitzend</label>
-<label>Haltungswechsel möglich?
-<select id="haltungswechsel">
-<option value="Ja">Ja</option>
-<option value="Nein">Nein</option>
-</select></label>
+<label>Haltungswechsel möglich:
+<select id="haltungswechsel"><option value="Ja">Ja</option><option value="Nein">Nein</option></select></label>
 
 <h3>Maschinenarbeit</h3>
 <label><input type="checkbox" id="maschineStehend"> An Maschine, stehend</label>
@@ -70,12 +45,9 @@ h3 { margin-top:20px; }
 
 <h3>Schwindelfreiheit</h3>
 <label>Erforderliche Schwindelfreiheit:
-<select id="schwindelfreiheit">
-<option value="Ja">Ja</option>
-<option value="Nein">Nein</option>
-</select></label>
+<select id="schwindelfreiheit"><option value="Ja">Ja</option><option value="Nein">Nein</option></select></label>
 
-<h3>Arbeit im Umfeld</h3>
+<h3>Umgebung / äußere Einflüsse</h3>
 <label><input type="checkbox" id="freies"> Arbeit im Freien</label>
 <label><input type="checkbox" id="kuenstlicht"> Arbeit bei künstlichem Licht</label>
 <label><input type="checkbox" id="hitze"> Hitze</label>
@@ -87,40 +59,51 @@ h3 { margin-top:20px; }
 <label><input type="checkbox" id="daempfe"> belastende Dämpfe</label>
 <label><input type="checkbox" id="laermDauer"> starker Lärm dauerhaft</label>
 
-<h3>Verantwortung / Aufgaben</h3>
+<h3>Aufgaben / Verantwortung</h3>
 <label><input type="checkbox" id="gehoben"> Gehobene Verantwortung</label>
 <label><input type="checkbox" id="essenUnregel"> Unregelmäßiges Essen</label>
 <label><input type="checkbox" id="akkord"> Akkordarbeit</label>
 <label><input type="checkbox" id="diaetNicht"> Diät nicht möglich</label>
+<label><input type="checkbox" id="fuehrung"> Führungsaufgaben</label>
+<label><input type="checkbox" id="konzentration"> Ständige Konzentration</label>
+<label><input type="checkbox" id="anlage"> Anlagesteuerung</label>
+<label><input type="checkbox" id="auswaerts"> Auswärtsmontage</label>
+<label><input type="checkbox" id="edv"> EDV-Tätigkeit</label>
+
+<h3>Überstunden</h3>
+<label><input type="radio" name="ueberstunden" value="Ja"> Ja</label>
+<label><input type="radio" name="ueberstunden" value="Nein"> Nein</label>
+
+<h3>Zufriedenheit</h3>
+<label><input type="radio" name="zufriedenheit" value="Ja"> Ja</label>
+<label><input type="radio" name="zufriedenheit" value="Nein"> Nein</label>
+
+<h3>Erreichbarkeit</h3>
+<label><input type="checkbox" id="pkw"> PKW</label>
+<label><input type="checkbox" id="fahrrad"> Fahrrad</label>
+<label><input type="checkbox" id="oeffentlich"> Öffentliche Verkehrsmittel</label>
+<label><input type="checkbox" id="fuss"> Zu Fuß</label>
 
 <button onclick="generateText()">Text generieren</button>
-
 <div id="result"></div>
 
 <script>
 function generateText() {
     let gender = document.getElementById("gender").value;
-    let pronoun = (gender==="mann")?"Er":"Sie";
-    let possessive = (gender==="mann")?"sein":"ihr";
-
-    let stundenTag = document.getElementById("stundenTag").value;
-    let stundenWoche = document.getElementById("stundenWoche").value;
-    let arbeitszeit = document.getElementById("arbeitszeit").value;
-    let regelmaessigkeit = document.getElementById("regelmaessigkeit").value;
-    let schicht = document.getElementById("schicht").value;
+    let pronoun = gender==="mann"?"Er":"Sie";
+    let possessive = gender==="mann"?"sein":"ihr";
 
     let sentences = [];
-    sentences.push(`${pronoun} ist in ${arbeitszeit}-Beschäftigung tätig und arbeitet ${regelmaessigkeit} in der ${schicht}. Die tägliche Arbeitszeit beträgt ${stundenTag} Stunden, die wöchentliche Arbeitszeit ${stundenWoche} Stunden.`);
+    sentences.push(`${pronoun} ist in ${document.getElementById("arbeitszeit").value}-Beschäftigung tätig und arbeitet ${document.getElementById("regelmaessigkeit").value} in der ${document.getElementById("schicht").value}. Die tägliche Arbeitszeit beträgt ${document.getElementById("stundenTag").value} Stunden, die wöchentliche Arbeitszeit ${document.getElementById("stundenWoche").value} Stunden.`);
 
-    // Körperliche Position & Haltungswechsel
+    // Körperliche Position
     let position = [];
     if(document.getElementById("stehend").checked) position.push("steht");
     if(document.getElementById("gehend").checked) position.push("geht");
     if(document.getElementById("sitzend").checked) position.push("sitzt");
     if(position.length>0) sentences.push(`${pronoun} ${position.join(", ")} während der Tätigkeit.`);
 
-    let haltungswechsel = document.getElementById("haltungswechsel").value;
-    sentences.push(`Haltungswechsel möglich: ${haltungswechsel}.`);
+    sentences.push(`Haltungswechsel möglich: ${document.getElementById("haltungswechsel").value}.`);
 
     // Maschinenarbeit
     let maschine = [];
@@ -129,16 +112,14 @@ function generateText() {
     if(maschine.length>0) sentences.push(`${pronoun} ${maschine.join(", ")}.`);
 
     // Belastungen
-    let lasten = document.getElementById("lasten").value;
     let belastungen = [];
+    let lasten = document.getElementById("lasten").value;
     if(lasten>0) belastungen.push(`hebt und trägt Lasten bis ${lasten} kg`);
     if(document.getElementById("gebueckt").checked) belastungen.push("arbeitet häufig gebückt");
     if(document.getElementById("kniedhockend").checked) belastungen.push("arbeitet oft kniend oder hockend");
     if(belastungen.length>0) sentences.push(`Belastungen: ${belastungen.join(", ")}.`);
 
-    // Schwindelfreiheit
-    let schwindel = document.getElementById("schwindelfreiheit").value;
-    sentences.push(`Erfordernis von Schwindelfreiheit: ${schwindel}.`);
+    sentences.push(`Erforderliche Schwindelfreiheit: ${document.getElementById("schwindelfreiheit").value}.`);
 
     // Umgebung
     let umfeld = [];
@@ -156,11 +137,26 @@ function generateText() {
 
     // Aufgaben / Verantwortung
     let aufgaben = [];
-    if(document.getElementById("gehoben").checked) aufgaben.push("gehobene Verantwortung");
-    if(document.getElementById("essenUnregel").checked) aufgaben.push("unregelmäßiges Essen");
-    if(document.getElementById("akkord").checked) aufgaben.push("Akkordarbeit");
-    if(document.getElementById("diaetNicht").checked) aufgaben.push("Diät nicht möglich");
+    ["gehoben","essenUnregel","akkord","diaetNicht","fuehrung","konzentration","anlage","auswaerts","edv"].forEach(id=>{
+        if(document.getElementById(id).checked) aufgaben.push(document.querySelector(`label[for='${id}']`)?.textContent || id);
+    });
     if(aufgaben.length>0) sentences.push(`${pronoun} übernimmt ${aufgaben.join(", ")}.`);
+
+    // Überstunden
+    let ueberstunden = document.querySelector("input[name='ueberstunden']:checked")?.value;
+    if(ueberstunden) sentences.push(`${pronoun} muss ${ueberstunden==="Ja"?"regelmäßig Überstunden leisten":"keine regelmäßigen Überstunden leisten"}.`);
+
+    // Zufriedenheit
+    let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
+    if(zufriedenheit) sentences.push(`${pronoun} ist ${zufriedenheit==="Ja"?"mit "+possessive+" Arbeitsplatz zufrieden":"mit "+possessive+" Arbeitsplatz nicht vollständig zufrieden, was eventuell Anpassungen erforderlich macht"}.`);
+
+    // Erreichbarkeit
+    let erreich = [];
+    if(document.getElementById("pkw").checked) erreich.push("PKW");
+    if(document.getElementById("fahrrad").checked) erreich.push("Fahrrad");
+    if(document.getElementById("oeffentlich").checked) erreich.push("öffentliche Verkehrsmittel");
+    if(document.getElementById("fuss").checked) erreich.push("zu Fuß");
+    if(erreich.length>0) sentences.push(`Der Arbeitsplatz ist erreichbar mit: ${erreich.join(", ")}.`);
 
     document.getElementById("result").textContent = sentences.join(" ");
 }
