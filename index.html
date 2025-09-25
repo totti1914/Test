@@ -24,8 +24,12 @@ h3 { margin-top:20px; }
 <select id="arbeitszeit"><option value="Vollzeit">Vollzeit</option><option value="Teilzeit">Teilzeit</option></select></label>
 <label>Regelmäßigkeit:
 <select id="regelmaessigkeit"><option value="regelmäßig">regelmäßig</option><option value="unregelmäßig">unregelmäßig</option></select></label>
-<label>Schicht:
-<select id="schicht"><option value="Tagesschicht">Tagesschicht</option><option value="Spätschicht">Spätschicht</option><option value="Nachtschicht">Nachtschicht</option><option value="Wechselschicht">Wechselschicht</option></select></label>
+
+<h3>Schicht</h3>
+<label><input type="checkbox" id="schichtTag"> Tagesschicht</label>
+<label><input type="checkbox" id="schichtSpät"> Spätschicht</label>
+<label><input type="checkbox" id="schichtNacht"> Nachtschicht</label>
+<label><input type="checkbox" id="schichtWechsel"> Wechselschicht</label>
 
 <h3>Körperliche Position / Belastungen</h3>
 <label><input type="checkbox" id="stehend"> Stehend</label>
@@ -73,8 +77,11 @@ h3 { margin-top:20px; }
 <label><input type="radio" name="ueberstunden" value="Nein"> Nein</label>
 
 <h3>Zufriedenheit</h3>
-<label><input type="radio" name="zufriedenheit" value="Ja"> Ja</label>
-<label><input type="radio" name="zufriedenheit" value="Nein"> Nein</label>
+<label><input type="radio" name="zufriedenheit" value="Ja" onclick="document.getElementById('zufriedenGrund').style.display='none'"> Ja</label>
+<label><input type="radio" name="zufriedenheit" value="Nein" onclick="document.getElementById('zufriedenGrund').style.display='block'"> Nein</label>
+<div id="zufriedenGrund" style="display:none; margin-top:5px;">
+  Grund: <input type="text" id="zufriedenWarum" placeholder="Warum nicht zufrieden?">
+</div>
 
 <h3>Erreichbarkeit</h3>
 <label><input type="checkbox" id="pkw"> PKW</label>
@@ -93,7 +100,15 @@ function generateText() {
     let sentences = [];
 
     // Arbeitszeit
-    sentences.push(`${pronoun} ist in ${document.getElementById("arbeitszeit").value}-Beschäftigung tätig und arbeitet ${document.getElementById("regelmaessigkeit").value} in der ${document.getElementById("schicht").value}. Die tägliche Arbeitszeit beträgt ${document.getElementById("stundenTag").value} Stunden, die wöchentliche Arbeitszeit ${document.getElementById("stundenWoche").value} Stunden.`);
+    sentences.push(`${pronoun} ist in ${document.getElementById("arbeitszeit").value}-Beschäftigung tätig und arbeitet ${document.getElementById("regelmaessigkeit").value}. Die tägliche Arbeitszeit beträgt ${document.getElementById("stundenTag").value} Stunden, die wöchentliche Arbeitszeit ${document.getElementById("stundenWoche").value} Stunden.`);
+
+    // Schicht
+    let schichten = [];
+    if(document.getElementById("schichtTag").checked) schichten.push("Tagesschicht");
+    if(document.getElementById("schichtSpät").checked) schichten.push("Spätschicht");
+    if(document.getElementById("schichtNacht").checked) schichten.push("Nachtschicht");
+    if(document.getElementById("schichtWechsel").checked) schichten.push("Wechselschicht");
+    if(schichten.length>0) sentences.push(`${pronoun} arbeitet in den Schichten: ${schichten.join(", ")}.`);
 
     // Körperliche Position
     let position = [];
@@ -151,18 +166,9 @@ function generateText() {
 
     // Zufriedenheit
     let zufriedenheit = document.querySelector("input[name='zufriedenheit']:checked")?.value;
-    if(zufriedenheit) sentences.push(`${pronoun} ist ${zufriedenheit==="Ja"?"mit "+possessive+" Arbeitsplatz zufrieden":"mit "+possessive+" Arbeitsplatz nicht vollständig zufrieden, was eventuell Anpassungen erforderlich macht"}.`);
-
-    // Erreichbarkeit
-    let erreich = [];
-    if(document.getElementById("pkw").checked) erreich.push("PKW");
-    if(document.getElementById("fahrrad").checked) erreich.push("Fahrrad");
-    if(document.getElementById("oeffentlich").checked) erreich.push("öffentliche Verkehrsmittel");
-    if(document.getElementById("fuss").checked) erreich.push("zu Fuß");
-    if(erreich.length>0) sentences.push(`Der Arbeitsplatz ist erreichbar mit: ${erreich.join(", ")}.`);
-
-    document.getElementById("result").textContent = sentences.join(" ");
-}
-</script>
-</body>
-</html>
+    if(zufriedenheit){
+        if(zufriedenheit==="Ja"){
+            sentences.push(`${pronoun} ist mit ${possessive} Arbeitsplatz zufrieden.`);
+        } else {
+            let grund = document.getElementById("zufriedenWarum").value || "kein Grund angegeben";
+           
